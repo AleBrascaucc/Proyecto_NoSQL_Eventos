@@ -1,0 +1,7 @@
+.env
+*.bak
+mongo_datos/
+data/
+logs/
+evidencias/historial*.txt
+evidencias/sesion*.txt

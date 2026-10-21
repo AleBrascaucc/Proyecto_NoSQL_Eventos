@@ -1,0 +1,15 @@
+services:
+  mongo:
+    image: mongo:8.0
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - mongo_datos:/data/db
+      - ./carga_datos.js:/scripts/carga_datos.js:ro
+      - ./consultas_semana2.js:/scripts/consultas_semana2.js:ro
+      - ./verificaciones.js:/scripts/verificaciones.js:ro
+    restart: unless-stopped
+
+volumes:
+  mongo_datos:
