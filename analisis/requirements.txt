@@ -1,0 +1,6 @@
+pymongo>=4.19,<5
+python-dotenv>=1,<2
+pandas>=2,<4
+matplotlib>=3,<4
+jupyterlab>=4,<5
+ipykernel>=6,<8

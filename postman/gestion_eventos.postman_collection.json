@@ -1,0 +1,650 @@
+{
+  "info": {
+    "name": "Gestion de eventos - Demo modelo usuario",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Ejecutar en orden 01 a 24 con API conectada al modelo nuevo. Modifica datos: conserva un evento y una inscripcion cancelados por cada recorrido completo. La recarga NO forma parte de esta coleccion. Variables a nivel coleccion; no crear variables de entorno con los mismos nombres."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "evento_payload",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "evento_demo_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "evento_borrador_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "inscripcion_demo_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "vacantes_antes",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Estado de conexion",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/estado"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Conexion OK\", () => pm.expect(pm.response.json().conexion).to.eql(\"OK\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Crear evento borrador",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos",
+        "body": {
+          "mode": "raw",
+          "raw": "{{evento_payload}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const inicio = new Date(Date.now() + 30 * 86400000);",
+              "const fin = new Date(inicio.getTime() + 2 * 3600000);",
+              "const evento = {",
+              " titulo: \"Demo Postman \" + inicio.toISOString(), categoria: \"Tecnología\",",
+              " fecha_inicio: inicio.toISOString(), fecha_fin: fin.toISOString(), precio_entrada: \"0.00\", capacidad_total: 1,",
+              " sede: {nombre: \"Sala demo\", direccion: \"Calle demo 100\", ciudad: \"Córdoba\", capacidad_maxima: 10},",
+              " conocimientos_requeridos: [\" MongoDB \", \"DOCKER\"],",
+              " actividades: [{tipo: \"taller\", codigo_actividad: \"ACT-01\", titulo: \"Taller demo\", orador: \"Ana\", sala: \"1\", inicio: inicio.toISOString(), fin: fin.toISOString()}]",
+              "};",
+              "pm.collectionVariables.set(\"evento_payload\", JSON.stringify(evento));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) pm.collectionVariables.set(\"evento_demo_id\", pm.response.json().id);",
+              "pm.test(\"Borrador y conocimientos normalizados\", () => { const e=pm.response.json(); pm.expect(e.estado).to.eql(\"borrador\"); pm.expect(e.conocimientos_requeridos).to.eql([\"mongodb\",\"docker\"]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Consultar detalle del evento",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Publicar evento",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"publicado\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Listar con filtros",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos?estado=publicado&conocimiento=mongodb&ciudad=C%C3%B3rdoba&precio_minimo=0&precio_maximo=100000"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Guardar cupo antes del rechazo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Una vacante\", () => pm.expect(pm.response.json().vacantes_disponibles).to.eql(1));",
+              "pm.collectionVariables.set(\"vacantes_antes\", String(pm.response.json().vacantes_disponibles));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Rechazar conocimientos faltantes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/inscripciones",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": {\n    \"dni\": \"90000111\",\n    \"nombre_completo\": \"Demo Postman\",\n    \"email\": \"demo.postman@example.com\",\n    \"conocimientos\": [\n      \"mongodb\"\n    ]\n  },\n  \"actividades_seleccionadas\": [\n    \"ACT-01\"\n  ],\n  \"tipo_entrada\": \"general\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+              "pm.test(\"Falta docker\", () => pm.expect(pm.response.json().detail.conocimientos_faltantes).to.eql([\"docker\"]));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Comprobar rollback del cupo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"El rechazo no desconto vacantes\", () => pm.expect(pm.response.json().vacantes_disponibles).to.eql(Number(pm.collectionVariables.get(\"vacantes_antes\"))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Inscripcion valida",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/inscripciones",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": {\n    \"dni\": \"90000111\",\n    \"nombre_completo\": \"Demo Postman\",\n    \"email\": \"demo.postman@example.com\",\n    \"conocimientos\": [\n      \" MongoDB \",\n      \"DOCKER\"\n    ]\n  },\n  \"actividades_seleccionadas\": [\n    \"ACT-01\"\n  ],\n  \"tipo_entrada\": \"general\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) pm.collectionVariables.set(\"inscripcion_demo_id\", pm.response.json().id);",
+              "pm.test(\"Usuario normalizado\", () => {const i=pm.response.json(); pm.expect(i.usuario.conocimientos).to.eql([\"mongodb\",\"docker\"]); pm.expect(i).not.to.have.property(\"participante\");});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Comprobar descuento de cupo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Evento completo\", () => pm.expect(pm.response.json().vacantes_disponibles).to.eql(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - Rechazar evento sin cupo (otro DNI)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/inscripciones",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": {\n    \"dni\": \"90000222\",\n    \"nombre_completo\": \"Demo Postman\",\n    \"email\": \"demo.postman@example.com\",\n    \"conocimientos\": [\n      \" MongoDB \",\n      \"DOCKER\"\n    ]\n  },\n  \"actividades_seleccionadas\": [\n    \"ACT-01\"\n  ],\n  \"tipo_entrada\": \"general\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+              "pm.test(\"Conflicto de cupo\", () => pm.expect(pm.response.json().detail).to.include(\"vacantes\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - Consultar inscripciones por DNI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/inscripciones?dni=90000111"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Una inscripcion\", () => pm.expect(pm.response.json()).to.have.lengthOf(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 - Cancelar inscripcion",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{base_url}}/inscripciones/{{inscripcion_demo_id}}/cancelacion"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Cancelada\", () => pm.expect(pm.response.json().estado_inscripcion).to.eql(\"cancelada\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 - Repetir cancelacion",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{base_url}}/inscripciones/{{inscripcion_demo_id}}/cancelacion"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Sigue cancelada\", () => pm.expect(pm.response.json().estado_inscripcion).to.eql(\"cancelada\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 - Comprobar restitucion unica",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Solo una vacante restituida\", () => pm.expect(pm.response.json().vacantes_disponibles).to.eql(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 - Rechazar DNI duplicado con cupo disponible",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/inscripciones",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": {\n    \"dni\": \"90000111\",\n    \"nombre_completo\": \"Demo Postman\",\n    \"email\": \"demo.postman@example.com\",\n    \"conocimientos\": [\n      \" MongoDB \",\n      \"DOCKER\"\n    ]\n  },\n  \"actividades_seleccionadas\": [\n    \"ACT-01\"\n  ],\n  \"tipo_entrada\": \"general\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+              "pm.test(\"Conflicto de DNI, no de cupo\", () => pm.expect(pm.response.json().detail).to.include(\"ya tiene\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 - Comprobar cupo tras duplicado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Duplicado no desconto cupo\", () => pm.expect(pm.response.json().vacantes_disponibles).to.eql(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 - Cancelar evento y conservar historial",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_demo_id}}/cancelacion"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Evento cancelado\", () => pm.expect(pm.response.json().estado).to.eql(\"cancelado\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 - ID inexistente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/ffffffffffffffffffffffff"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 - ID mal formado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/id-invalido"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 - Intervalo de precios invalido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos?precio_minimo=8000&precio_maximo=4000"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 422\", () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "22 - Crear borrador para probar eliminacion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/eventos",
+        "body": {
+          "mode": "raw",
+          "raw": "{{evento_payload}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const inicio = new Date(Date.now() + 30 * 86400000);",
+              "const fin = new Date(inicio.getTime() + 2 * 3600000);",
+              "const evento = {",
+              " titulo: \"Demo Postman \" + inicio.toISOString(), categoria: \"Tecnología\",",
+              " fecha_inicio: inicio.toISOString(), fecha_fin: fin.toISOString(), precio_entrada: \"0.00\", capacidad_total: 1,",
+              " sede: {nombre: \"Sala demo\", direccion: \"Calle demo 100\", ciudad: \"Córdoba\", capacidad_maxima: 10},",
+              " conocimientos_requeridos: [\" MongoDB \", \"DOCKER\"],",
+              " actividades: [{tipo: \"taller\", codigo_actividad: \"ACT-01\", titulo: \"Taller demo\", orador: \"Ana\", sala: \"1\", inicio: inicio.toISOString(), fin: fin.toISOString()}]",
+              "};",
+              "pm.collectionVariables.set(\"evento_payload\", JSON.stringify(evento));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) pm.collectionVariables.set(\"evento_borrador_id\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "23 - Eliminar borrador sin inscripciones",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_borrador_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "24 - Confirmar borrado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/eventos/{{evento_borrador_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

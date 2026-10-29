@@ -5,3 +5,14 @@ data/
 logs/
 evidencias/historial*.txt
 evidencias/sesion*.txt
+
+backups/
+.venv/
+__pycache__/
+*.pyc
+.env.*
+!.env.example
+
+# Archivos locales generados por Postman
+/postman/.postman/
+/postman/postman/
