@@ -1,0 +1,16 @@
+{
+  "fecha_ejecucion_utc": "2026-10-29T21:42:34.720229+00:00",
+  "base": "gestion_eventos",
+  "eventos": 22,
+  "inscripciones": 201,
+  "meses_mostrados": 3,
+  "meses_sin_registros_rellenados": 0,
+  "inscripciones_en_tabla": 201,
+  "inscripciones_canceladas_en_tabla": 49,
+  "importe_bruto_total": "789000.00",
+  "importe_registrado_canceladas": "144000.00",
+  "unidad": "importe monetario registrado, sin conversion de moneda",
+  "regla": "sumar importe_abonado por mes UTC de fecha_inscripcion; incluir todos los estados",
+  "politica_demo": "base actual, sin excluir por titulo ni recargar datos",
+  "meses_vacios": "rellenar con cero solo entre el primer y ultimo mes observados"
+}

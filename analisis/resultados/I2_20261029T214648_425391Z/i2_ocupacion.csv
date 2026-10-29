@@ -1,0 +1,18 @@
+﻿evento_id,evento,estado_evento,capacidad_total,inscripciones_confirmadas,vacantes_disponibles,ocupacion_porcentaje
+720000000000000000000003,Emprendimientos 3,publicado,12,12,0,100.00
+720000000000000000000004,Desarrollo web 4,publicado,28,9,19,32.14
+720000000000000000000005,Innovación educativa 5,publicado,30,9,21,30.00
+720000000000000000000006,Encuentro de literatura 6,publicado,32,9,23,28.12
+720000000000000000000007,Emprendimientos 7,publicado,34,9,25,26.47
+720000000000000000000008,Desarrollo web 8,publicado,36,9,27,25.00
+720000000000000000000009,Innovación educativa 9,publicado,38,9,29,23.68
+720000000000000000000010,Encuentro de literatura 10,publicado,40,9,31,22.50
+720000000000000000000011,Emprendimientos 11,publicado,42,9,33,21.43
+720000000000000000000012,Desarrollo web 12,publicado,44,9,35,20.45
+720000000000000000000013,Innovación educativa 13,publicado,46,9,37,19.57
+720000000000000000000015,Emprendimientos 15,finalizado,50,8,42,16.00
+720000000000000000000016,Desarrollo web 16,finalizado,52,8,44,15.38
+720000000000000000000017,Innovación educativa 17,finalizado,54,8,46,14.81
+720000000000000000000018,Encuentro de literatura 18,finalizado,56,8,48,14.29
+720000000000000000000019,Emprendimientos 19,finalizado,58,8,50,13.79
+6715a1b2c3d4e5f6a7b8c9d0,Taller de MongoDB,publicado,30,1,29,3.33

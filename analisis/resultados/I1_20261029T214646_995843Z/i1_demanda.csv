@@ -1,0 +1,36 @@
+﻿evento_id,evento,estado_evento,codigo_actividad,actividad,selecciones_confirmadas
+720000000000000000000003,Emprendimientos 3,publicado,ACT-01,Emprendimientos práctico,8
+720000000000000000000012,Desarrollo web 12,publicado,ACT-01,Desarrollo web práctico,6
+720000000000000000000004,Desarrollo web 4,publicado,ACT-01,Desarrollo web práctico,6
+720000000000000000000008,Desarrollo web 8,publicado,ACT-01,Desarrollo web práctico,6
+720000000000000000000011,Emprendimientos 11,publicado,ACT-01,Emprendimientos práctico,6
+720000000000000000000007,Emprendimientos 7,publicado,ACT-01,Emprendimientos práctico,6
+720000000000000000000010,Encuentro de literatura 10,publicado,ACT-01,Encuentro de literatura práctico,6
+720000000000000000000014,Encuentro de literatura 14,cancelado,ACT-01,Encuentro de literatura práctico,6
+720000000000000000000006,Encuentro de literatura 6,publicado,ACT-01,Encuentro de literatura práctico,6
+720000000000000000000013,Innovación educativa 13,publicado,ACT-01,Innovación educativa práctico,6
+720000000000000000000005,Innovación educativa 5,publicado,ACT-01,Innovación educativa práctico,6
+720000000000000000000009,Innovación educativa 9,publicado,ACT-01,Innovación educativa práctico,6
+720000000000000000000016,Desarrollo web 16,finalizado,ACT-01,Desarrollo web práctico,5
+720000000000000000000015,Emprendimientos 15,finalizado,ACT-01,Emprendimientos práctico,5
+720000000000000000000019,Emprendimientos 19,finalizado,ACT-01,Emprendimientos práctico,5
+720000000000000000000018,Encuentro de literatura 18,finalizado,ACT-01,Encuentro de literatura práctico,5
+720000000000000000000017,Innovación educativa 17,finalizado,ACT-01,Innovación educativa práctico,5
+720000000000000000000003,Emprendimientos 3,publicado,ACT-02,Conferencia de cierre,4
+720000000000000000000012,Desarrollo web 12,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000004,Desarrollo web 4,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000008,Desarrollo web 8,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000011,Emprendimientos 11,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000007,Emprendimientos 7,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000010,Encuentro de literatura 10,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000014,Encuentro de literatura 14,cancelado,ACT-02,Conferencia de cierre,3
+720000000000000000000006,Encuentro de literatura 6,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000013,Innovación educativa 13,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000005,Innovación educativa 5,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000009,Innovación educativa 9,publicado,ACT-02,Conferencia de cierre,3
+720000000000000000000016,Desarrollo web 16,finalizado,ACT-02,Conferencia de cierre,2
+720000000000000000000015,Emprendimientos 15,finalizado,ACT-02,Conferencia de cierre,2
+720000000000000000000019,Emprendimientos 19,finalizado,ACT-02,Conferencia de cierre,2
+720000000000000000000018,Encuentro de literatura 18,finalizado,ACT-02,Conferencia de cierre,2
+720000000000000000000017,Innovación educativa 17,finalizado,ACT-02,Conferencia de cierre,2
+6715a1b2c3d4e5f6a7b8c9d0,Taller de MongoDB,publicado,ACT-01,Introducción al modelado documental,1

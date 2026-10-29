@@ -1,3 +1,5 @@
+name: proyecto-eventos
+
 services:
   mongo:
     image: mongo:8.0
@@ -6,10 +8,35 @@ services:
       - "127.0.0.1:27018:27017"
     volumes:
       - mongo_datos:/data/db
-      - ./carga_datos.js:/scripts/carga_datos.js:ro
-      - ./consultas_semana2.js:/scripts/consultas_semana2.js:ro
-      - ./verificaciones.js:/scripts/verificaciones.js:ro
+      - ./scripts:/scripts:ro
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "const h = db.hello(); quit(h.isWritablePrimary && h.setName === 'rs0' ? 0 : 1)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  api:
+    build:
+      context: ./api
+    environment:
+      MONGO_URI: mongodb://mongo:27017/?replicaSet=rs0&directConnection=true
+      MONGO_DB: gestion_eventos
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/estado', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   mongo_datos:
+    external: true
+    name: ${MONGO_VOLUME_NAME:-proyecto-eventos_mongo_datos}
