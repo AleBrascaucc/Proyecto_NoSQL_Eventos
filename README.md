@@ -25,10 +25,22 @@ los dos graficos. I1: 35 pares y 147 selecciones. I2: ocupacion global 20,97%
 (143/682). I3: bruto registrado 789000, incluyendo canceladas. Ver
 [docs/6_resultados.md](docs/6_resultados.md) para cortes, limites y evidencias.
 
-El notebook contiene las tres secciones. Sus salidas se guardaran al ejecutarlo
-en la PC del usuario (LEEME_BLOQUE10.md); no se precargaron resultados ficticios.
-Faltan la revision final de esa ejecucion, el commit del analisis, la presentacion
-.pptx y la publicacion de la rama.
+El notebook esta guardado con seis celdas de codigo ejecutadas y cero errores.
+El analisis esta en el commit local b881392, posterior a la implementacion 3cb55a7.
+
+## Material para entregar y exponer
+
+- [Informe tecnico editable](informe/Informe_Tecnico_Eventos.docx).
+- [Informe tecnico PDF](informe/Informe_Tecnico_Eventos.pdf).
+- [Presentacion profesional](presentacion/Presentacion_Eventos.pptx): 15 diapositivas
+  con notas, tablas y graficos editables.
+- [Guion de defensa y demo](docs/Guion_Defensa.md).
+- [Resultados y conclusiones](docs/6_resultados.md).
+- [Indice de evidencias](docs/anexo/README.md) y capturas de los casos 404 y 422.
+
+Los documentos corresponden al trabajo ejecutado el 29/10/2026. La publicacion
+remota se comprueba por separado mediante el estado de GitHub; este archivo no
+se usa como comprobante de un push que todavia no se haya realizado.
 
 ## Requisitos
 
@@ -220,8 +232,7 @@ Las pruebas locales usan dobles para transacciones; no sustituyen pruebas de
 concurrencia o fallos del servidor. Las comprobaciones reales realizadas y sus
 limites estan documentados en docs/3_api.md y docs/anexo/README.md.
 
-El notebook contiene I1, I2 e I3 implementados sin salidas precargadas. I1 e I2
-se ejecutaron mediante scripts; I3 tambien se ejecuto mediante script; el notebook queda por ejecutar y guardar.
+El notebook contiene I1, I2 e I3 con sus salidas ejecutadas y guardadas.
 Ver LEEME_BLOQUE7.md para ejecutar I1. Preparar un entorno separado para analisis:
 
 ```powershell
@@ -237,12 +248,7 @@ locales. Ver LEEME_BLOQUE9.md para I3. Tambien puede ejecutarse I1 sin Jupyter c
 
 ## Estado de Git
 
-Los cambios locales pertenecen a cambio-modelo-y-estructura. La integracion de
-GitHub disponible no tuvo permisos de escritura (403), asi que estos cambios no
-se publicaron ni se fusionaron. Antes de compartir, revisar git diff y git status,
+Los cambios locales pertenecen a cambio-modelo-y-estructura. La integracion de GitHub de la sesion no tuvo permisos de escritura (403).
+La publicacion se realiza desde la cuenta Git del propietario de la copia local;
+el script publicar_rama.ps1 verifica que el SHA remoto coincida con el local. Antes de compartir, revisar git diff y git status,
 comprobar exclusiones de .env/backups y agregar solo fuentes/evidencias revisadas.
-
-
-## Notebook ejecutado y comprobado
-
-El 29/10/2026 se ejecuto el notebook completo: 6 celdas de codigo ejecutadas y 0 errores guardados. Contiene las salidas reales de I1, I2 e I3. Las referencias anteriores a ejecucion pendiente describen etapas previas. Quedan pendientes guardar el commit del analisis, la presentacion y la publicacion de la rama.

@@ -81,19 +81,15 @@ Demanda, ocupacion e importe son dimensiones diferentes. Una actividad puede
 recibir varias selecciones por evento y un evento gratuito puede tener cupos
 ocupados sin recaudar. Estos indicadores apoyan descripcion, no causalidad.
 
-## Limites y pendientes
+## Limites de validacion
 
 Datos ficticios y poblacion pequena. No se probaron carga concurrente, caidas de
 servidor, restauracion del backup ni elecciones de un nuevo primario. Un replica
 set de un nodo habilita transacciones pero no aporta redundancia. No hay
 cobros reales, reembolsos ni autenticacion de actores.
 
-El commit previo 3cb55a7 guarda la etapa de API y estructura. El analisis posterior
-requiere revision y nuevo commit. Faltan guardar/revisar la ejecucion del notebook,
-preparar la presentacion y publicar la rama. Las pruebas manuales de Postman no
-se presentan como un reporte consolidado exportado del Runner.
-
-
-## Notebook ejecutado y comprobado
-
-El 29/10/2026 se ejecuto el notebook completo: 6 celdas de codigo ejecutadas y 0 errores guardados. Contiene las salidas reales de I1, I2 e I3. Las referencias anteriores a ejecucion pendiente describen etapas previas. Quedan pendientes guardar el commit del analisis, la presentacion y la publicacion de la rama.
+El commit 3cb55a7 conserva la implementacion y b881392 guarda el analisis con
+notebook ejecutado (seis celdas, cero errores). El informe integrado, la presentacion
+profesional y el guion se incorporan en el cierre documental posterior. La demo
+fue manual: no se inventa un reporte consolidado del Runner. La publicacion remota
+se verifica comparando el commit local con la referencia de la rama en GitHub.
