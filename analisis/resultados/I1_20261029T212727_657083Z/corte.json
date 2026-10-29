@@ -1,0 +1,13 @@
+{
+  "fecha_ejecucion_utc": "2026-10-29T21:27:27.591208+00:00",
+  "base": "gestion_eventos",
+  "eventos": 22,
+  "inscripciones": 201,
+  "inscripciones_confirmadas": 152,
+  "confirmadas_sin_actividad": 52,
+  "pares_evento_actividad": 35,
+  "selecciones_confirmadas": 147,
+  "regla": "estado_inscripcion=confirmada; sin filtro por estado del evento",
+  "unidad": "selecciones por par evento_id/codigo_actividad",
+  "politica_demo": "base actual; sin excluir por titulo ni recargar datos"
+}

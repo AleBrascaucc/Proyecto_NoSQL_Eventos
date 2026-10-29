@@ -1,0 +1,21 @@
+{
+  "fecha_ejecucion_utc": "2026-10-29T21:33:39.020798+00:00",
+  "base": "gestion_eventos",
+  "eventos": 22,
+  "inscripciones": 201,
+  "inscripciones_confirmadas_totales": 152,
+  "eventos_incluidos": 17,
+  "capacidad_incluida": 682,
+  "confirmadas_en_eventos_incluidos": 143,
+  "vacantes_en_eventos_incluidos": 539,
+  "ocupacion_global_ponderada_porcentaje": "20.97",
+  "promedio_simple_por_evento_porcentaje": "25.12",
+  "eventos_excluidos": 5,
+  "estados_incluidos": [
+    "publicado",
+    "finalizado"
+  ],
+  "unidad": "porcentaje de capacidad por evento",
+  "formula": "100 * inscripciones_confirmadas / capacidad_total",
+  "politica_demo": "base actual; excluir borradores y cancelados por estado, no por titulo"
+}

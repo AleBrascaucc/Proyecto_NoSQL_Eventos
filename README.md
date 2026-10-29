@@ -20,10 +20,15 @@ ejecutadas; tres indices comparados y DNI duplicado rechazado; API construida y
 levantada en Docker; demo de Postman ejecutada manualmente. El estado posterior
 es 22 eventos/201 inscripciones y nueve controles de consistencia en cero.
 
-El analisis es por ahora SOLO un esqueleto sin graficos ni resultados ejecutados.
-Quedan pendientes el analisis final con dos graficos, su interpretacion, la
-presentacion .pptx, la revision de evidencias de Postman y la publicacion de esta
-rama. No se presenta como finalizado lo que todavia no se ejecuto.
+I1, I2 e I3 se ejecutaron mediante scripts contra la base real y se revisaron
+los dos graficos. I1: 35 pares y 147 selecciones. I2: ocupacion global 20,97%
+(143/682). I3: bruto registrado 789000, incluyendo canceladas. Ver
+[docs/6_resultados.md](docs/6_resultados.md) para cortes, limites y evidencias.
+
+El notebook contiene las tres secciones. Sus salidas se guardaran al ejecutarlo
+en la PC del usuario (LEEME_BLOQUE10.md); no se precargaron resultados ficticios.
+Faltan la revision final de esa ejecucion, el commit del analisis, la presentacion
+.pptx y la publicacion de la rama.
 
 ## Requisitos
 
@@ -215,7 +220,9 @@ Las pruebas locales usan dobles para transacciones; no sustituyen pruebas de
 concurrencia o fallos del servidor. Las comprobaciones reales realizadas y sus
 limites estan documentados en docs/3_api.md y docs/anexo/README.md.
 
-El notebook es un esqueleto sin ejecutar. Preparar un entorno separado para analisis:
+El notebook contiene I1, I2 e I3 implementados sin salidas precargadas. I1 e I2
+se ejecutaron mediante scripts; I3 tambien se ejecuto mediante script; el notebook queda por ejecutar y guardar.
+Ver LEEME_BLOQUE7.md para ejecutar I1. Preparar un entorno separado para analisis:
 
 ```powershell
 python -m venv .venv
@@ -224,7 +231,9 @@ python -m venv .venv
 ```
 
 No es necesario ejecutar estos comandos para instalar la documentacion. Las
-celdas de conexion y conteos son de solo lectura; I1, I2 e I3 quedan por desarrollar.
+celdas son de solo lectura en MongoDB; los tres indicadores exportan archivos
+locales. Ver LEEME_BLOQUE9.md para I3. Tambien puede ejecutarse I1 sin Jupyter con
+`.\.venv\Scripts\python.exe .\analisis\i1_demanda.py`.
 
 ## Estado de Git
 
@@ -232,3 +241,8 @@ Los cambios locales pertenecen a cambio-modelo-y-estructura. La integracion de
 GitHub disponible no tuvo permisos de escritura (403), asi que estos cambios no
 se publicaron ni se fusionaron. Antes de compartir, revisar git diff y git status,
 comprobar exclusiones de .env/backups y agregar solo fuentes/evidencias revisadas.
+
+
+## Notebook ejecutado y comprobado
+
+El 29/10/2026 se ejecuto el notebook completo: 6 celdas de codigo ejecutadas y 0 errores guardados. Contiene las salidas reales de I1, I2 e I3. Las referencias anteriores a ejecucion pendiente describen etapas previas. Quedan pendientes guardar el commit del analisis, la presentacion y la publicacion de la rama.
